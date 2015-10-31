@@ -60,9 +60,16 @@ function defaultSettings(meta)
 end
 
 function registerApplet(meta)
+  -- FIXME make more like squeeze os
+  -- meta:registerService("setupScan")
+  -- meta:registerService("setupNetworking")
+  -- meta:registerService("settingsNetworking")
     
+  -- our own services
   meta:registerService("isNetworkConnected")
   meta:registerService("showNetworkSetup")  
   jiveMain:addItem(meta:menuItem('appletSetupNetworking', 'settings', "SETUP_NETWORKING", function(applet, ...) applet:menu(...) end, 900))
+  -- FIXME make more like squeeze OS
+  --jiveMain:addItem(meta:menuItem('chooseNetwork', 'networkSettings', "NETWORK_WIRELESS_NETWORKS", function(applet, ...) applet:settingsNetworking(...) end, 2))
   
 end

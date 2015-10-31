@@ -113,8 +113,9 @@ local EVENT_HIDE              = jive.ui.EVENT_HIDE
 local EVENT_CONSUME           = jive.ui.EVENT_CONSUME
 local EVENT_UNUSED            = jive.ui.EVENT_UNUSED
 
+local arch = io.popen("uname -m"):read("*l")
 -- detect script location and add it to path
-package.cpath = debug.getinfo(1,"S").source:match[[^@?(.*[\/])[^\/]-$]] .. "lib/" .."?.so;" .. package.cpath
+package.cpath = debug.getinfo(1,"S").source:match[[^@?(.*[\/])[^\/]-$]] .. "lib/" .. arch .. "/?.so;" .. package.cpath
 package.path = debug.getinfo(1,"S").source:match[[^@?(.*[\/])[^\/]-$]] .."?.lua;" .. package.path
 
 local wicd = { }

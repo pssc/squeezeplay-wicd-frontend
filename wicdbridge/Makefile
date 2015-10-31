@@ -15,21 +15,23 @@
 interface_xml := common/wicd-dbus-interface.xml
 
 # Define a list of pkg-config packages we want to use
-pkg_packages := dbus-1 dbus-glib-1 lua5.1
+pkg_packages := dbus-1 dbus-glib-1
 
 PKG_CFLAGS  := $(shell pkg-config --cflags $(pkg_packages))
 PKG_LDFLAGS := $(shell pkg-config --libs $(pkg_packages))
+
 # Add additional flags:
 # -g : add debugging symbols
 # -Wall : enable most gcc warnings
 # -DG_DISABLE_DEPRECATED : disable GLib functions marked as deprecated
-ADD_CFLAGS := -g -Wall -DG_DISABLE_DEPRECATED 
+ADD_CFLAGS := -g -Wall -DG_DISABLE_DEPRECATED -fPIC -DPIC
 # -DNO_DAEMON : do not daemonize the server (on a separate line so can
 #               be disabled just by commenting the line)
-ADD_LDFLAGS := -Wl,--no-undefined -shared -fPIC
+ADD_LDFLAGS := -shared -module
+
 # Combine flags
-CFLAGS  := $(PKG_CFLAGS) $(ADD_CFLAGS) $(CFLAGS)
-LDFLAGS := $(PKG_LDFLAGS) $(LDFLAGS) $(ADD_LDFLAGS)
+CFLAGS  := $(CFLAGS) $(PKG_CFLAGS) $(CFLAGS) $(ADD_CFLAGS)
+LDFLAGS := $(CFLAGS) $(PKG_LDFLAGS) $(ADD_LDFLAGS)
 
 COBJFILES := $(patsubst common/%.c,common/%.o,$(wildcard common/*.c))
 
